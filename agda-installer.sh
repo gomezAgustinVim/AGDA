@@ -104,6 +104,21 @@ setautomaticlogin() {
     echo "ExecStart=-/sbin/agetty --noreset --noclear --autologin $name \${TERM}" >> /etc/systemd/system/getty@tty1.service.d/autologin.conf
 }
 
+manualinstall() {
+	pacman -Qq "$1" && return 0
+    whiptail --title "AGDA aurhelper" --infobox "Descargando helper para el AUR, por defecto '$aurhelper'" 8 70
+    sudo -u "$name" mkdir -p "$repodir/$1"
+    sudo -u "$name" git -C "$repodir" clone --depth 1 --single-branch \
+        --no-tags -q "https://aur.archlinux.org/$1.git" "$repodir/$1" ||
+        {
+            cd "$repodir/$1" || return 1
+			sudo -u "$name" git pull --force origin master
+        }
+    cd "$repodir/$1" || exit 1
+    sudo -u "$name" \
+        makepkg -si --noconfirm >/dev/null 2>&1 || return 1
+}
+
 finalize() {
 	whiptail --title "Todo ok! nwn" \
 		--msgbox "Todo ha sido instalado correctamente. Ahora puedes cerrar esta ventana. Prueba reiniciar o abrir el tty1 de neuvo." 8 70
@@ -143,12 +158,7 @@ sed -Ei "s/^#(ParallelDownloads).*/\1 = 5/;/^#Color$/s/#//" /etc/pacman.conf
 setautomaticlogin || error "Usuario salió"
 
 # Instalar el AUR
-(sudo -u "$name" mkdir -p "$repodir/$aurhelper"
-sudo -u "$name" git -C "$repodir" clone --depth 1 --single-branch \
-    --no-tags -q "https://aur.archlinux.org/$aurhelper.git"
-cd "$repodir/$aurhelper" || exit 1
-sudo -u "$name" \
-    makepkg -si --noconfirm >/dev/null 2>&1 || return 1) || error "AUR falló"
+manualinstall $aurhelper || error "Usuario salió"
 
 # Asegurarse de que el AUR está actualizado
 $aurhelper -Y --save --devel
