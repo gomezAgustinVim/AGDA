@@ -144,7 +144,7 @@ setautomaticlogin || error "Usuario salió"
 
 # Instalar el AUR
 (sudo -u mkdir -p "$repodir/$aurhelper"
-sudo -u "$name" git clone -C "$repodir" clone --depth 1 --single-branch \
+sudo -u "$name" git -C "$repodir" clone --depth 1 --single-branch \
     --no-tags -q "https://aur.archlinux.org/$aurhelper.git"
 cd "$repodir/$aurhelper" || exit 1
 sudo -u "$name" \
@@ -176,6 +176,6 @@ mkdir -p /etc/sysctl.d
 echo "kernel.dmesg_restrict = 0" > /etc/sysctl.d/dmesg.conf
 
 # Cleanup
-rm -f /etc/sudoers.d/larbs-temp
+rm -f /etc/sudoers.d/agda-temp
 
 finalize
