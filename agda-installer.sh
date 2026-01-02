@@ -141,3 +141,11 @@ sudo -u "$name" mkdir -p "/home/$name/.config/mpd/playlists/"
 
 # Hacer dash el enlace simbólico a sh por defecto
 ln -sfT /bin/dash /bin/sh >/dev/null 2>&1
+
+# Hacer sudoer para wheel sin contraseña para que pueda ejecutar comandos del sistema
+# (como shutdown, reboot, etc.)
+echo "%wheel ALL=(ALL:ALL) ALL" >/etc/sudoers.d/00-agda-wheel-can-sudo
+echo "%wheel ALL=(ALL:ALL) NOPASSWD: /usr/bin/poweroff,/usr/bin/shutdown,/usr/bin/reboot,/usr/bin/systemctl suspend,/usr/bin/wifi-menu,/usr/bin/mount,/usr/bin/umount,/usr/bin/pacman -Syu,/usr/bin/pacman -Syyu,/usr/bin/pacman -Syyu --noconfirm,/usr/bin/loadkeys,/usr/bin/pacman -Syyuw --noconfirm,/usr/bin/pacman -S -y --config /etc/pacman.conf --,/usr/bin/pacman -S -y -u --config /etc/pacman.conf --" >/etc/sudoers.d/01-agda-cmds-without-password
+echo "Defaults editor=/usr/bin/nvim" >/etc/sudoers.d/02-agda-visudo-editor
+mkdir -p /etc/sysctl.d
+echo "kernel.dmesg_restrict = 0" > /etc/sysctl.d/dmesg.conf
