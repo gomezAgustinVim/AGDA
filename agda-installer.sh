@@ -74,8 +74,8 @@ getdotfiles() {
     dir=$(mktemp -d)
     # ya existe home
 	chown "$name":wheel "$dir"
-    sudo -u "$name" git -C "$repodir" clone --depth 1 --single-branch \
-        --no-tags -q "$1" "$dir"
+    sudo -u "$name" git -C "$repodir" clone --depth 1 --single-branch --recursive \
+        --no-tags -q --recurse-submodules "$1" "$dir"
 	sudo -u "$name" cp -rfT "$dir" "$2"
 }
 
