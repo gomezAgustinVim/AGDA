@@ -1,139 +1,137 @@
-#TAG,NAME IN REPO
-,cifs-utils
-,odt2txt
-,neovim
-,tmux
-,python-pip
-,zsh-autosuggestions
-,zsh-completions
-,zsh-history-substring-search
-,zsh-syntax-highlighting
-,bat
-,mpv
-,mpd
-,mpc
-,ncmpcpp
-,dunst
-,fastfetch
-,yt-dlp
-,zathura
-,poppler
-,zathura-pdf-poppler
-,atool
-,7zip
-,android-file-transfer
-,arch-wiki-docs
-,bluez
-,chafa
-,mediainfo
-,zip
-,unzip
-,filezilla
-,firefox
-,foot
-,networkmanager
-,network-manager-applet
-,fzf
-,gimp
-,grim
-,nodejs
-,npm
-,nsxiv
-,nwg-look
-,obs-studio
-,pass
-,pavucontrol
-,pcmanfm
-,pipewire
-,wireplumber
-,pipewire-pulse
-,python-pip
-,rsync
-,samba
-,snooze
-,tealdeer
-,termdown
-,tlp
-,transmission-cli
-,transmission-gtk
-,typst
-,udiskie
-,hyprland
-,hypridle
-,hyprlock
-,hyprpaper
-,polkit-kde-agent
-,qt5-wayland
-,qt6-wayland
-,qt5ct
-,qt6ct
-,slurp
-,hyprsunset
-,xdg-desktop-portal-hyprland
-,imagemagick
-,jq
-,keepassxc
-,kvantum
-,kvantum-qt5
-,rofi
-,rofi-calc
-,rofi-emoji
-,waybar
-,wget
-,wikiman
-,wl-clipboard
-,wlr-randr
-,wtype
-,xarchiver
-,yazi
-,pandoc-bin
-,fcitx5-configtool
-,fcitx5-gtk
-,fcitx5-mozc
-,ffmpeg
-,ffmpegthumbnailer
-,gnome-epub-thumbnailer
-,gnome-keyring
-,docker
-,moreutils
-,socat
-,tesseract
-,adobe-source-han-sans-jp-fonts
-,adobe-source-han-serif-jp-fonts
-,noto-fonts
-,noto-fonts-cjk
-,noto-fonts-emoji
-,noto-fonts-extra
-,otf-firamono-nerd
-,otf-ipaexfont
-,ttf-firacode-nerd
-,ttf-inconsolata-nerd
-,ttf-iosevka-nerd
-,ttf-iosevkaterm-nerd
-,ttf-jetbrains-mono-nerd
-,ttf-jigmo
-,ttf-libertinus
-,ttf-mplus-nerd
-,ttf-nerd-fonts-symbols-mono
-,ttf-opensans
-,ttf-roboto
-,ttf-roboto-mono-nerd
-,ttf-sazanami
-,ttf-sourcecodepro-nerd
-,ttf-ubuntu-mono-nerd
-,ttf-ubuntu-nerd
-,ttf-vlgothic
-A,bibata-cursor-git
-A,brave-bin
-A,calibre-bin
-A,downgrade
-A,fcitx5-gruvbox-dark-theme-git
-A,fnm
-A,htop-vim-git
-A,megatools
-A,neovim-nightly
-A,zsh-theme-powerlevel10k-git
-A,rar
-A,ttf-joypixels
-A,ttf-koruri
-A,ttf-monapo
+#TAG,NAME IN REPO,PORPOSE
+,cifs-utils,"utilidades para montar sistemas con smb/cifs"
+,odt2txt,"extraer texto de archivos ODT (OpenDocument Text)"
+,neovim,"editor de texto moderno basado en Vim"
+,tmux,"multiplexor de terminal para múltiples sesiones/pestañas"
+,python-pip,"gestor de paquetes para Python (PIP)"
+,zsh-autosuggestions,"sugerencias automáticas para Zsh"
+,zsh-completions,"completado automático mejorado para Zsh"
+,zsh-history-substring-search,"búsqueda en historial por subcadena para Zsh"
+,zsh-syntax-highlighting,"resaltado de sintaxis para Zsh"
+,bat,"clon de cat con resaltado de sintaxis y paginación"
+,mpv,"reproductor multimedia versátil y personalizable"
+,mpd,"demonio de reproducción de música"
+,mpc,"cliente de línea de comandos para MPD"
+,ncmpcpp,"cliente de música en terminal para MPD"
+,dunst,"notificaciones de escritorio minimalistas"
+,fastfetch,"herramienta de información del sistema (similar a neofetch)"
+,yt-dlp,"descargador de videos de YouTube y otros sitios"
+,zathura,"visor de documentos minimalista y con atajos de teclado"
+,poppler,"biblioteca para manipular archivos PDF"
+,zathura-pdf-poppler,"plugin de PDF para Zsh con backend Poppler"
+,atool,"gestor de archivos comprimidos unificado"
+,7zip,"utilidad de compresión/descompresión 7-Zip"
+,android-file-transfer,"transferencia de archivos entre PC y Android"
+,arch-wiki-docs,"documentación de Arch Wiki offline"
+,bluez,"utilidades para Bluetooth"
+,chafa,"visualizador de imágenes en terminal"
+,mediainfo,"información técnica de archivos multimedia"
+,zip,"utilidad de compresión ZIP"
+,unzip,"utilidad de descompresión ZIP"
+,filezilla,"cliente FTP/FTPS/SFTP gráfico"
+,firefox,"navegador web Firefox"
+,foot,"emulador de terminal rápido y ligero"
+,networkmanager,"gestor de conexiones de red"
+,network-manager-applet,"applet de sistema para NetworkManager"
+,fzf,"buscador difuso en línea de comandos"
+,gimp,"editor de imágenes GNU (alternativa a Photoshop)"
+,grim,"captura de pantalla para Wayland"
+,nodejs,"entorno de ejecución JavaScript"
+,npm,"gestor de paquetes para Node.js"
+,nsxiv,"visor de imágenes simple y minimalista"
+,nwg-look,"aplicación para aplicar temas GTK en Wayland"
+,obs-studio,"software de grabación y streaming"
+,pass,"gestor de contraseñas en línea de comandos"
+,pavucontrol,"control de volumen de PulseAudio"
+,pcmanfm,"gestor de archivos ligero"
+,pipewire-pulse,"compatibilidad PulseAudio para PipeWire"
+,wireplumber,"gestor de sesiones para PipeWire"
+,python-pip,"gestor de paquetes para Python (duplicado)"
+,rsync,"herramienta de sincronización y copia de archivos"
+,samba,"compartición de archivos e impresoras SMB/CIFS"
+,snooze,"retardo de ejecución de comandos tipo cron"
+,tealdeer,"páginas de ayuda rápidas para comandos (tldr)"
+,termdown,"temporizador en terminal"
+,tlp,"administración de energía para portátiles"
+,transmission-gtk,"cliente BitTorrent con interfaz GTK"
+,typst,"sistema de composición tipográfica moderno"
+,udiskie,"automontaje de discos USB"
+,hyprland,"compositor Wayland dinámico y altamente configurable"
+,hypridle,"gestor de inactividad para Hyprland"
+,hyprlock,"gestor de bloqueo de pantalla para Hyprland"
+,hyprpaper,"gestor de fondos de pantalla para Hyprland"
+,hyprsunset,"control de temperatura de color para Hyprland"
+,polkit,"agente de autenticación para manejar políticas de seguridad"
+,qt5-wayland,"soporte Wayland para aplicaciones Qt5"
+,qt6-wayland,"soporte Wayland para aplicaciones Qt6"
+,qt5ct,"configurador de temas para Qt5"
+,qt6ct,"configurador de temas para Qt6"
+,slurp,"selector de regiones para Wayland"
+,xdg-desktop-portal-hyprland,"portal de escritorio para Hyprland"
+,imagemagick,"herramientas de manipulación de imágenes CLI"
+,jq,"procesador JSON en línea de comandos"
+,keepassxc,"gestor de contraseñas seguro"
+,kvantum,"motor de temas para Qt"
+,kvantum-qt5,"motor de temas para Qt5"
+,rofi,"lanzador de aplicaciones"
+,rofi-calc,"calculadora para Rofi"
+,rofi-emoji,"selector de emojis para Rofi"
+,waybar,"barra de estado para Wayland"
+,wget,"descargador de archivos web"
+,wikiman,"visor de páginas man y wiki"
+,wl-clipboard,"portapapeles para Wayland"
+,wlr-randr,"gestor de pantallas para compositores wlroots"
+,wtype,"simulador de entrada de teclado para Wayland"
+,xarchiver,"gestor de archivos comprimidos para Xfce"
+,yazi,"gestor de archivos en terminal con vista previa"
+,pandoc-bin,"convertidor de formatos de documentos"
+,fcitx5-configtool,"herramienta de configuración para Fcitx5"
+,fcitx5-gtk,"soporte GTK para Fcitx5"
+,fcitx5-mozc,"motor de entrada japonés para Fcitx5"
+,ffmpeg,"herramientas de procesamiento multimedia"
+,ffmpegthumbnailer,"generador de miniaturas de video"
+,gnome-epub-thumbnailer,"generador de miniaturas para EPUB"
+,gnome-keyring,"sistema de almacenamiento seguro de secretos"
+,docker,"plataforma de contenedores"
+,moreutils,"colección de utilidades Unix adicionales"
+,socat,"relay de sockets bidireccional"
+,tesseract,"OCR (reconocimiento óptico de caracteres)"
+,adobe-source-han-sans-jp-fonts,"fuentes sans-serif japonesas"
+,adobe-source-han-serif-jp-fonts,"fuentes serif japonesas"
+,noto-fonts,"fuentes Google Noto (multilingües)"
+,noto-fonts-cjk,"fuentes Noto para chino/japonés/coreano"
+,noto-fonts-emoji,"fuentes con soporte emoji"
+,noto-fonts-extra,"fuentes Noto adicionales"
+,otf-firamono-nerd,"fuente Fira Mono con glifos Nerd"
+,otf-ipaexfont,"fuentes IPAex japonesas"
+,ttf-firacode-nerd,"fuente Fira Code con glifos Nerd"
+,ttf-inconsolata-nerd,"fuente Inconsolata con glifos Nerd"
+,ttf-iosevka-nerd,"fuente Iosevka con glifos Nerd"
+,ttf-iosevkaterm-nerd,"fuente Iosevka Term con glifos Nerd"
+,ttf-jetbrains-mono-nerd,"fuente JetBrains Mono con glifos Nerd"
+,ttf-jigmo,"fuente japonesa Jigmo"
+,ttf-libertinus,"fuente Libertinus serif/sans-serif"
+,ttf-mplus-nerd,"fuente M+ con glifos Nerd"
+,ttf-nerd-fonts-symbols-mono,"símbolos Nerd Fonts monoespaciados"
+,ttf-opensans,"fuente Open Sans"
+,ttf-roboto,"fuente Roboto"
+,ttf-roboto-mono-nerd,"fuente Roboto Mono con glifos Nerd"
+,ttf-sazanami,"fuentes japonesas Sazanami"
+,ttf-sourcecodepro-nerd,"fuente Source Code Pro con glifos Nerd"
+,ttf-ubuntu-mono-nerd,"fuente Ubuntu Mono con glifos Nerd"
+,ttf-ubuntu-nerd,"fuente Ubuntu con glifos Nerd"
+,ttf-vlgothic,"fuentes japonesas VL Gothic"
+A,bibata-cursor-git,"temas de cursor animados personalizables"
+A,brave-bin,"navegador web Brave (con Chromium)"
+A,calibre-bin,"gestor de biblioteca de libros electrónicos"
+A,downgrade,"herramienta para degradar paquetes en Arch"
+A,fcitx5-gruvbox-dark-theme-git,"tema Gruvbox Dark para Fcitx5"
+A,fnm,"gestor rápido de versiones de Node.js"
+A,htop-vim-git,"monitor de procesos con controles tipo Vim"
+A,megatools,"cliente para MEGA.nz en línea de comandos"
+A,neovim-nightly,"versión nightly de Neovim (desarrollo)"
+A,zsh-theme-powerlevel10k-git,"tema Zsh altamente personalizable"
+A,rar,"utilidad de compresión RAR"
+A,ttf-joypixels,"fuentes emoji de JoyPixels"
+A,ttf-koruri,"fuente japonesa Koruri"
+A,ttf-monapo,"fuente japonesa Monapo"
