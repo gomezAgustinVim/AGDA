@@ -1,10 +1,12 @@
 #!/bin/sh
 
+RED='\033[0;31m'
+NC='\033[0m'
+
 # VIHenvenido a mi mundo...
 
 dotsfilesrepo="https://github.com/gomezAgustinVim/duandotfiles"
 progsfile="https://raw.githubusercontent.com/gomezAgustinVim/AGDA/master/progs.csv"
-fontlist="https://raw.githubusercontent.com/gomezAgustinVim/AGDA/master/fontlist.csv"
 aurhelper="yay"
 
 installpkg() {
@@ -13,7 +15,7 @@ installpkg() {
 
 error() {
 	# Log to stderr and exit with failure.
-	printf "%s\n" "$1" >&2
+	printf "${RED}%s\n" ${NC}"$1" >&2
 	exit 1
 }
 
@@ -29,22 +31,19 @@ welcomemsg() {
 # Debe correrse después de una instlación de Arch
 # ya sea con el archinstall o manualmente
 
-getuserandpass() {
+getusercheck() {
     # Consigue el nombre de usuario ya existente
 	name=$(whiptail --inputbox "Nombre de usuario de la cuenta" 10 60 3>&1 1>&2 2>&3 3>&1) || exit 1
 	while ! echo "$name" | grep -q "^[a-z_][a-z0-9_-]*$"; do
 		name=$(whiptail --nocancel --inputbox "Nombre de usuario no valido. Escribe un nombre de usuario que empiece por una letra, con solo letras minúsculas, - o _." 10 60 3>&1 1>&2 2>&3 3>&1)
 	done
-}
-
-usercheck() {
 	! { id -u "$name" >/dev/null 2>&1; } ||
 		whiptail --title "ADVERTENCIA" --yes-button "CONTINUA" \
 			--no-button "Espera nwn..." \
 			--yesno "El usuario \`$name\` ya existe en el sistema. AGDA puede instalar para un usuario ya existente, pero sobreescribirá cualquier configuración/dotfiles en la cuenta del usuario.\\n\\nAGDA NO sobreescribirá tus archivos de usuario, documentos, videos, etc., así que no te preocupes, solo haz click <CONTINUA> si no te importa que tu configuración se sobreescriba.\\n\\nNota también que AGDA cambiará la contraseña de $name a la que acabas de dar." 14 70
 }
 
-adduserandpass() {
+moduser() {
 	# Adds user `$name` to wheel
 	whiptail --infobox "Añadiendo user a grupo wheel \"$name\"..." 7 50
 	usermod -a -G wheel "$name" && chown "$name":wheel /home/"$name"
@@ -65,20 +64,19 @@ installmain() {
 
 aurinstall() {
 	whiptail --title "Instalación de AGDA" \
-		--infobox "Instalando \`$1\` ($n of $total) del AUR. $1 $2" 9 70
+		--infobox "Instalando \`$1\` ($n de $total) del AUR. $1 $2" 9 70
 	echo "$aurinstalled" | grep -q "^$1$" && return 1
 	sudo -u "$name" $aurhelper -S --noconfirm "$1" >/dev/null 2>&1
 }
 
-installfonts() {
-    # Instalar fuentes
-	whiptail --title "Instalación de AGDA" --infobox "Instalando fuentes ($n de $total). $1 $2" 9 70
-    installpkg "$1"
-}
-
 getdotfiles() {
-    git clone $dotsfilesrepo
-    mv duandotfiles/.* ~/
+	whiptail --infobox "Obteniendo dotfiles y configuraciones..." 7 60
+    dir=$(mktemp -d)
+    # ya existe home
+	chown "$name":wheel "$dir"
+    sudo -u "$name" git -C "$repodir" clone --depth 1 --single-branch \
+        --no-tags -q "$1" "$dir"
+	sudo -u "$name" cp -rfT "$dir" "$2"
 }
 
 installationloop() {
@@ -91,15 +89,14 @@ installationloop() {
 		n=$((n + 1))
 		case "$tag" in
 		    "A") aurinstall "$program" "$comment" ;;
-		    "G") gitmakeinstall "$program" "$comment" ;;
-		    *) maininstall "$program" "$comment" ;;
+		    *) installmain "$program" "$comment" ;;
         esac
     done </tmp/progs.csv
 }
 
 setautomaticlogin() {
     # Set automatic login
-    whiptail --title "AGDA" --infobox "Configurando login automático" 8 70
+    whiptail --title "AGDA login system" --infobox "Configurando login automático" 8 70
     mkdir -p /etc/systemd/system/getty@tty1.service.d
     touch /etc/systemd/system/getty@tty1.service.d/autologin.conf
     echo "[Service]" > /etc/systemd/system/getty@tty1.service.d/autologin.conf
@@ -107,7 +104,16 @@ setautomaticlogin() {
     echo "ExecStart=-/sbin/agetty --noreset --noclear --autologin $name \${TERM}" >> /etc/systemd/system/getty@tty1.service.d/autologin.conf
 }
 
+finalize() {
+	whiptail --title "Todo ok! nwn" \
+		--msgbox "Todo ha sido instalado correctamente. Ahora puedes cerrar esta ventana. Prueba reiniciar o abrir el tty1 de neuvo." 8 70
+}
+
 # Script principal
+
+welcomemsg || error "Usuario salió"
+
+getusercheck || error "Usuario salió"
 
 for x in curl ca-certificates base-devel git ntp zsh dash; do
 	whiptail --title "AGDA Instalación" \
@@ -118,6 +124,8 @@ done
 whiptail --title "AGDA Instalación" \
 	--infobox "Sincronizando con el servidor de tiempo" 8 70
 ntpd -q -g >/dev/null 2>&1
+
+moduser || error "Usuario salió"
 
 [ -f /etc/sudoers.pacnew ] && cp /etc/sudoers.pacnew /etc/sudoers # Just in case
 
@@ -131,8 +139,25 @@ Defaults:%wheel,root runcwd=*" >/etc/sudoers.d/agda-temp
 grep -q "ILoveCandy" /etc/pacman.conf || sed -i "/#VerbosePkgLists/a ILoveCandy" /etc/pacman.conf
 sed -Ei "s/^#(ParallelDownloads).*/\1 = 5/;/^#Color$/s/#//" /etc/pacman.conf
 
+# Login automatico en tty1
+setautomaticlogin || error "Usuario salió"
+
+# Instalar el AUR
+(sudo -u mkdir -p "$repodir/$aurhelper"
+sudo -u "$name" git clone -C "$repodir" clone --depth 1 --single-branch \
+    --no-tags -q "https://aur.archlinux.org/$aurhelper.git"
+cd "$repodir/$aurhelper" || exit 1
+sudo -u "$name" \
+    makepkg -si --noconfirm >/dev/null 2>&1 || return 1) || error "AUR falló"
+
+# Asegurarse de que el AUR está actualizado
+$aurhelper -Y --save --devel
+
 # Instalacion de todos los paquetes en progs.csv
 installationloop
+
+# Obtener dotfiles
+getdotfiles "$dotfilesrepo" "/home/$name"
 
 # Hacer zsh el shell por defecto
 chsh -s /bin/zsh "$name" >/dev/null 2>&1
@@ -149,3 +174,8 @@ echo "%wheel ALL=(ALL:ALL) NOPASSWD: /usr/bin/poweroff,/usr/bin/shutdown,/usr/bi
 echo "Defaults editor=/usr/bin/nvim" >/etc/sudoers.d/02-agda-visudo-editor
 mkdir -p /etc/sysctl.d
 echo "kernel.dmesg_restrict = 0" > /etc/sysctl.d/dmesg.conf
+
+# Cleanup
+rm -f /etc/sudoers.d/larbs-temp
+
+finalize
