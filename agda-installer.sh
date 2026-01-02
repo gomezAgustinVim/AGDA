@@ -143,7 +143,7 @@ sed -Ei "s/^#(ParallelDownloads).*/\1 = 5/;/^#Color$/s/#//" /etc/pacman.conf
 setautomaticlogin || error "Usuario salió"
 
 # Instalar el AUR
-(sudo -u mkdir -p "$repodir/$aurhelper"
+(sudo -u "$name" mkdir -p "$repodir/$aurhelper"
 sudo -u "$name" git -C "$repodir" clone --depth 1 --single-branch \
     --no-tags -q "https://aur.archlinux.org/$aurhelper.git"
 cd "$repodir/$aurhelper" || exit 1
