@@ -104,7 +104,7 @@ setautomaticlogin() {
     touch /etc/systemd/system/getty@tty1.service.d/autologin.conf
     echo "[Service]" > /etc/systemd/system/getty@tty1.service.d/autologin.conf
     echo "ExecStart=" >> /etc/systemd/system/getty@tty1.service.d/autologin.conf
-    echo "ExecStart=-/sbin/agetty --noreset --noclear --autologin $name \${TERM}" >> /etc/systemd/system/getty@tty1.service.d/autologin.conf
+    echo "ExecStart=-/sbin/agetty --noreset --noclear --autologin $name - \${TERM}" >> /etc/systemd/system/getty@tty1.service.d/autologin.conf
 }
 
 manualinstall() {
