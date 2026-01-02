@@ -72,6 +72,7 @@ aurinstall() {
 getdotfiles() {
 	whiptail --infobox "Obteniendo dotfiles y configuraciones..." 7 60
     dir=$(mktemp -d)
+    # $1 repo, $2 home
     # ya existe home
 	chown "$name":wheel "$dir"
     sudo -u "$name" git -C "$repodir" clone --depth 1 --single-branch --recursive \
