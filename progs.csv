@@ -126,6 +126,7 @@
 ,ttf-ubuntu-nerd,"fuente Ubuntu con glifos Nerd"
 ,ttf-vlgothic,"fuentes japonesas VL Gothic"
 A,bibata-cursor-git,"temas de cursor animados personalizables"
+A,brillo,"control de brillo natural para Wayland"
 A,brave-bin,"navegador web Brave (con Chromium)"
 A,calibre-bin,"gestor de biblioteca de libros electrónicos"
 A,downgrade,"herramienta para degradar paquetes en Arch"

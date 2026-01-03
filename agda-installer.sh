@@ -166,6 +166,11 @@ manualinstall $aurhelper || error "Usuario salió"
 # Asegurarse de que el AUR está actualizado
 $aurhelper -Y --save --devel
 
+# Crear grupo video para controlar brillo
+# y añadir al usuario
+groupadd -f video
+usermod -aG video "$name"
+
 # Instalacion de todos los paquetes en progs.csv
 installationloop
 
