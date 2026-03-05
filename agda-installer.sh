@@ -166,10 +166,13 @@ manualinstall $aurhelper || error "Usuario salió"
 # Asegurarse de que el AUR está actualizado
 $aurhelper -Y --save --devel
 
-# Crear grupo video para controlar brillo
+# Crear grupos para controlar
+# brillo, docker y libvirt
 # y añadir al usuario
-groupadd -f video
-usermod -aG video "$name"
+for g in video docker libvirt; do
+	groupadd -f "$g"
+	usermod -aG "$g" "$name"
+done
 
 # Instalacion de todos los paquetes en progs.csv
 installationloop
@@ -181,12 +184,13 @@ getdotfiles "$dotfilesrepo" "/home/$name"
 chsh -s /bin/zsh "$name" >/dev/null 2>&1
 sudo -u "$name" mkdir -p "/home/$name/.cache/zsh/"
 sudo -u "$name" mkdir -p "/home/$name/.config/mpd/playlists/"
+sudo -u "$name" mkdir -p "/home/$name/.config/yazi/"
 
 # Hacer dash el enlace simbólico a sh por defecto
 ln -sfT /bin/dash /bin/sh >/dev/null 2>&1
 
 # Conseguir los plugins de yazi
-cd ~/.config/yazi
+cd "/home/$name/.config/yazi"
 ya pkg upgrade
 cd
 
