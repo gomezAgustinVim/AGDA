@@ -76,7 +76,7 @@ getdotfiles() {
     # ya existe home
 	chown "$name":wheel "$dir"
     sudo -u "$name" git -C "$repodir" clone --depth 1 --single-branch --recursive \
-        --no-tags -q --recurse-submodules "$1" "$dir"
+        -q --recurse-submodules "$1" "$dir"
 	sudo -u "$name" cp -rfT "$dir" "$2"
 }
 
@@ -178,7 +178,7 @@ done
 installationloop
 
 # Obtener dotfiles
-getdotfiles "$dotfilesrepo" "/home/$name"
+getdotfiles "$dotsfilesrepo" "/home/$name"
 
 # Hacer zsh el shell por defecto
 chsh -s /bin/zsh "$name" >/dev/null 2>&1
