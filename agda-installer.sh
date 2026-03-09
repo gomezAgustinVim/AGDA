@@ -129,7 +129,10 @@ finalize() {
 
 # Script principal
 
-welcomemsg || error "Usuario salió"
+welcomemsg || {
+    installpkg "libnewt"
+    error "Whiptail no instalado, instalando..."
+}
 
 getusercheck || error "Usuario salió"
 
