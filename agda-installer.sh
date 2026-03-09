@@ -193,9 +193,9 @@ sudo -u "$name" mkdir -p "/home/$name/.config/yazi/"
 ln -sfT /bin/dash /bin/sh >/dev/null 2>&1
 
 # Conseguir los plugins de yazi
-cd "/home/$name/.config/yazi"
-ya pkg upgrade
-cd
+# cd "/home/$name/.config/yazi"
+# ya pkg upgrade
+# cd
 
 # Hacer sudoer para wheel sin contraseña para que pueda ejecutar comandos del sistema
 # (como shutdown, reboot, etc.)
