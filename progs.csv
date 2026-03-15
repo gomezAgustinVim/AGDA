@@ -49,7 +49,6 @@
 ,wireplumber,"gestor de sesiones para PipeWire"
 ,python-pip,"gestor de paquetes para Python"
 ,rsync,"herramienta de sincronización y copia de archivos"
-,snooze,"retardo de ejecución de comandos tipo cron"
 ,tealdeer,"páginas de ayuda rápidas para comandos (tldr)"
 ,termdown,"temporizador en terminal"
 ,tlp,"administración de energía para portátiles"
