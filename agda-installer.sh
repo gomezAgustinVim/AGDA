@@ -7,10 +7,10 @@ NC='\033[0m'
 
 dotsfilesrepo="https://github.com/gomezAgustinVim/duandotfiles"
 progsfile="https://raw.githubusercontent.com/gomezAgustinVim/AGDA/master/progs.csv"
-aurhelper="yay"
+aurhelper="paru"
 
 installpkg() {
-    pacman -S --needed --noconfirm "$1" >/dev/null 2>&1
+	pacman -S --needed --noconfirm "$1" >/dev/null 2>&1
 }
 
 error() {
@@ -20,19 +20,19 @@ error() {
 }
 
 welcomemsg() {
-    whiptail --title "VIHenvenido a mi mundo de AGDA" \
-        --msgbox "Este script instalará todos los paquetes que uso en Arch" 10 60
+	whiptail --title "VIHenvenido a mi mundo de AGDA" \
+		--msgbox "Este script instalará todos los paquetes que uso en Arch" 10 60
 
-    whiptail --title "Importante" --yes-button "Continuar" \
-        --no-button "Salir" \
-        --yesno "¿Estás seguro de que quieres continuar?" 8 70
-    }
+	whiptail --title "Importante" --yes-button "Continuar" \
+		--no-button "Salir" \
+		--yesno "¿Estás seguro de que quieres continuar?" 8 70
+}
 
 # Debe correrse después de una instlación de Arch
 # ya sea con el archinstall o manualmente
 
 getusercheck() {
-    # Consigue el nombre de usuario ya existente
+	# Consigue el nombre de usuario ya existente
 	name=$(whiptail --inputbox "Nombre de usuario de la cuenta" 10 60 3>&1 1>&2 2>&3 3>&1) || exit 1
 	while ! echo "$name" | grep -q "^[a-z_][a-z0-9_-]*$"; do
 		name=$(whiptail --nocancel --inputbox "Nombre de usuario no valido. Escribe un nombre de usuario que empiece por una letra, con solo letras minúsculas, - o _." 10 60 3>&1 1>&2 2>&3 3>&1)
@@ -57,9 +57,9 @@ moduser() {
 # y que ya tenemos instalados los siguientes paquetes:
 
 installmain() {
-    # Instalar paquetes
+	# Instalar paquetes
 	whiptail --title "Instalación de AGDA" --infobox "Instalando \`$1\` ($n de $total). $1 $2" 9 70
-    installpkg "$1"
+	installpkg "$1"
 }
 
 aurinstall() {
@@ -71,17 +71,17 @@ aurinstall() {
 
 getdotfiles() {
 	whiptail --infobox "Obteniendo dotfiles y configuraciones..." 7 60
-    dir=$(mktemp -d)
-    # $1 repo, $2 home
-    # ya existe home
+	dir=$(mktemp -d)
+	# $1 repo, $2 home
+	# ya existe home
 	chown "$name":wheel "$dir"
-    sudo -u "$name" git -C "$repodir" clone --depth 1 --single-branch --recursive \
-        -q --recurse-submodules "$1" "$dir"
+	sudo -u "$name" git -C "$repodir" clone --depth 1 --single-branch --recursive \
+		-q --recurse-submodules "$1" "$dir"
 	sudo -u "$name" cp -rfT "$dir" "$2"
 }
 
 installationloop() {
-    # Loop to install all packages in progs.csv
+	# Loop to install all packages in progs.csv
 	([ -f "$progsfile" ] && cp "$progsfile" /tmp/progs.csv) ||
 		curl -Ls "$progsfile" | sed '/^#/d' >/tmp/progs.csv
 	total=$(wc -l </tmp/progs.csv)
@@ -91,35 +91,35 @@ installationloop() {
 		echo "$comment" | grep -q "^\".*\"$" &&
 			comment="$(echo "$comment" | sed -E "s/(^\"|\"$)//g")"
 		case "$tag" in
-		    "A") aurinstall "$program" "$comment" ;;
-		    *) installmain "$program" "$comment" ;;
-        esac
-    done </tmp/progs.csv
+		"A") aurinstall "$program" "$comment" ;;
+		*) installmain "$program" "$comment" ;;
+		esac
+	done </tmp/progs.csv
 }
 
 setautomaticlogin() {
-    # Set automatic login
-    whiptail --title "AGDA login system" --infobox "Configurando login automático" 8 70
-    mkdir -p /etc/systemd/system/getty@tty1.service.d
-    touch /etc/systemd/system/getty@tty1.service.d/autologin.conf
-    echo "[Service]" > /etc/systemd/system/getty@tty1.service.d/autologin.conf
-    echo "ExecStart=" >> /etc/systemd/system/getty@tty1.service.d/autologin.conf
-    echo "ExecStart=-/sbin/agetty --noreset --noclear --autologin $name - \${TERM}" >> /etc/systemd/system/getty@tty1.service.d/autologin.conf
+	# Set automatic login
+	whiptail --title "AGDA login system" --infobox "Configurando login automático" 8 70
+	mkdir -p /etc/systemd/system/getty@tty1.service.d
+	touch /etc/systemd/system/getty@tty1.service.d/autologin.conf
+	echo "[Service]" >/etc/systemd/system/getty@tty1.service.d/autologin.conf
+	echo "ExecStart=" >>/etc/systemd/system/getty@tty1.service.d/autologin.conf
+	echo "ExecStart=-/sbin/agetty --noreset --noclear --autologin $name - \${TERM}" >>/etc/systemd/system/getty@tty1.service.d/autologin.conf
 }
 
 manualinstall() {
 	pacman -Qq "$1" && return 0
-    whiptail --title "AGDA aurhelper" --infobox "Descargando helper para el AUR, por defecto '$aurhelper'" 8 70
-    sudo -u "$name" mkdir -p "$repodir/$1"
-    sudo -u "$name" git -C "$repodir" clone --depth 1 --single-branch \
-        --no-tags -q "https://aur.archlinux.org/$1.git" "$repodir/$1" ||
-        {
-            cd "$repodir/$1" || return 1
+	whiptail --title "AGDA aurhelper" --infobox "Descargando helper para el AUR, por defecto '$aurhelper'" 8 70
+	sudo -u "$name" mkdir -p "$repodir/$1"
+	sudo -u "$name" git -C "$repodir" clone --depth 1 --single-branch \
+		--no-tags -q "https://aur.archlinux.org/$1.git" "$repodir/$1" ||
+		{
+			cd "$repodir/$1" || return 1
 			sudo -u "$name" git pull --force origin master
-        }
-    cd "$repodir/$1" || exit 1
-    sudo -u "$name" \
-        makepkg -si --noconfirm >/dev/null 2>&1 || return 1
+		}
+	cd "$repodir/$1" || exit 1
+	sudo -u "$name" \
+		makepkg -si --noconfirm >/dev/null 2>&1 || return 1
 }
 
 finalize() {
@@ -130,8 +130,8 @@ finalize() {
 # Script principal
 
 welcomemsg || {
-    installpkg "libnewt"
-    error "Whiptail no instalado, instalando..."
+	installpkg "libnewt"
+	error "Whiptail no instalado, instalando..."
 }
 
 getusercheck || error "Usuario salió"
@@ -192,10 +192,18 @@ sudo -u "$name" mkdir -p "/home/$name/.config/yazi/"
 # Hacer dash el enlace simbólico a sh por defecto
 ln -sfT /bin/dash /bin/sh >/dev/null 2>&1
 
-# Conseguir los plugins de yazi
-# cd "/home/$name/.config/yazi"
-# ya pkg upgrade
-# cd
+# Agregar esto para que se lea ZDOTDIR y se tome la configuración de zsh
+cat <<EOF >/etc/zsh/zshenv
+if [[ -z "$XDG_CONFIG_HOME" ]]
+ then
+    export XDG_CONFIG_HOME="$HOME/.config"
+fi
+
+if [[ -d "$XDG_CONFIG_HOME/zsh" ]]
+ then
+    export ZDOTDIR="$XDG_CONFIG_HOME/zsh"
+fi
+EOF
 
 # Hacer sudoer para wheel sin contraseña para que pueda ejecutar comandos del sistema
 # (como shutdown, reboot, etc.)
@@ -203,7 +211,7 @@ echo "%wheel ALL=(ALL:ALL) ALL" >/etc/sudoers.d/00-agda-wheel-can-sudo
 echo "%wheel ALL=(ALL:ALL) NOPASSWD: /usr/bin/poweroff,/usr/bin/shutdown,/usr/bin/reboot,/usr/bin/systemctl suspend,/usr/bin/wifi-menu,/usr/bin/mount,/usr/bin/umount,/usr/bin/pacman -Syu,/usr/bin/pacman -Syyu,/usr/bin/pacman -Syyu --noconfirm,/usr/bin/loadkeys,/usr/bin/pacman -Syyuw --noconfirm,/usr/bin/pacman -S -y --config /etc/pacman.conf --,/usr/bin/pacman -S -y -u --config /etc/pacman.conf --" >/etc/sudoers.d/01-agda-cmds-without-password
 echo "Defaults editor=/usr/bin/nvim" >/etc/sudoers.d/02-agda-visudo-editor
 mkdir -p /etc/sysctl.d
-echo "kernel.dmesg_restrict = 0" > /etc/sysctl.d/dmesg.conf
+echo "kernel.dmesg_restrict = 0" >/etc/sysctl.d/dmesg.conf
 
 # Cleanup
 rm -f /etc/sudoers.d/agda-temp
